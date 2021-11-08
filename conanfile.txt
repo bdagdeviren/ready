@@ -1,0 +1,5 @@
+[requires]
+log.c/cci.20200620
+
+[generators]
+cmake
