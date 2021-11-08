@@ -18,9 +18,11 @@ int main() {
     }
 
     char *clusterName = getenv("CLUSTER_NAME");
-    int workerCount = (int) getenv("WORKER_MACHINE_COUNT");
-    int masterCount = (int) getenv("CONTROL_PLANE_MACHINE_COUNT");
-    if ( clusterName && workerCount && masterCount) {
+    char *workerCountEnv = getenv("WORKER_MACHINE_COUNT");
+    char *masterCountEnv = getenv("CONTROL_PLANE_MACHINE_COUNT");
+    if ( clusterName && workerCountEnv && masterCountEnv) {
+        int workerCount = atoi(workerCountEnv);
+        int masterCount = atoi(masterCountEnv);
         while (1) {
             struct node_create_check_return node_create_check_return;
             node_create_check_return = node_create_check();
@@ -39,6 +41,11 @@ int main() {
     }else {
         log_info("Set CLUSTER_NAME,CONTROL_PLANE_MACHINE_COUNT,WORKER_MACHINE_COUNT environment variables!");
     }
+
+    free(env);
+    free(clusterName);
+    free(workerCountEnv);
+    free(masterCountEnv);
 
     return 0;
 }
